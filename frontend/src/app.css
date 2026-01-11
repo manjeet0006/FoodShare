@@ -1,0 +1,14 @@
+/* src/App.css */
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* This ensures your landing page content doesn't hit the screen edges */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}

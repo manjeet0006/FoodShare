@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  /* Mapping MERN colors specifically for solid backgrounds */
+  --color-primary: hsl(346.8 77.2% 49.8%);
+  --color-primary-foreground: hsl(355.7 100% 97.3%);
+  
+  --color-accent: hsl(142.1 76.2% 36.3%);
+  --color-accent-foreground: hsl(355.7 100% 97.3%);
+
+  /* FIX: Ensure these are solid HSL values, not transparent */
+
+  --color-foreground: hsl(222.2 84% 4.9%);
+
+  --color-background: hsl(210 20% 98%);
+  --color-card: hsl(0 0% 100%);
+  --color-muted: hsl(210 40% 96.1%);
+  
+
+  --color-card-foreground: hsl(222.2 84% 4.9%);
+  
+  --color-border: hsl(214.3 31.8% 91.4%);
+  --radius-xl: 1rem;
+}
+
+@layer base {
+  :root {
+    /* Standard CSS variables for Shadcn components */
+    --background: 210 20% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --primary: 346.8 77.2% 49.8%;
+    --accent: 142.1 76.2% 36.3%;
+    --border: 214.3 31.8% 91.4%;
+  }
+
+  body {
+    background-color: #FDFDFF; /* Solid fallback background */
+    display: block !important;
+  }
+}
