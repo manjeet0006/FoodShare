@@ -5,7 +5,7 @@ import './index.css'; // Your Tailwind CSS
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
 import './index.css'
-import './App.css'
+import './app.css'
 import "leaflet/dist/leaflet.css";
 
 
