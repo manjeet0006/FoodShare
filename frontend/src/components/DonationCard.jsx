@@ -82,7 +82,7 @@ export function DonationCard({ donation, onClaim, showMessageButton = false, sho
             alt="food"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 block"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
           
           <Badge className={cn(
             "absolute top-2 right-2 text-[9px] font-black uppercase tracking-tighter border-none",

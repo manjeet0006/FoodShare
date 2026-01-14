@@ -103,7 +103,7 @@ export default function Index() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {/* Donator Persona */}
-            <div className="bg-background border border-border p-8 rounded-[2rem] shadow-sm hover:border-primary/40 transition-colors">
+            <div className="bg-background border border-border p-8 rounded-4xl shadow-sm hover:border-primary/40 transition-colors">
               <Building2 className="h-10 w-10 text-rose-500 mb-4" />
               <h3 className="text-2xl font-bold mb-2">For Food Donors</h3>
               <p className="text-muted-foreground mb-6">Restaurants, Hotels, and Caterers looking to reduce waste and help others.</p>
@@ -113,7 +113,7 @@ export default function Index() {
             </div>
 
             {/* Receiver Persona */}
-            <div className="bg-background border border-border p-8 rounded-[2rem] shadow-sm hover:border-indigo-500/40 transition-colors">
+            <div className="bg-background border border-border p-8 rounded-4xl shadow-sm hover:border-indigo-500/40 transition-colors">
               <HandHeart className="h-10 w-10 text-indigo-500 mb-4" />
               <h3 className="text-2xl font-bold mb-2">For NGOs & Receivers</h3>
               <p className="text-muted-foreground mb-6">Verified organizations and volunteers distributing food to the needy.</p>

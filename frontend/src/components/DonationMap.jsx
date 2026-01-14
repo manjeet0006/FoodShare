@@ -107,7 +107,7 @@ export function DonationMap({ donations = [], userLocation }) {
 
               <Popup className="custom-popup">
                 {/* Increased width to fit buttons */}
-                <div className="min-w-[240px] pt-1">
+                <div className="min-w-60 pt-1">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="font-bold text-base text-slate-800 leading-tight">{d.title}</h3>
                     <span className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded-full border border-slate-200">
@@ -167,7 +167,7 @@ export function DonationMap({ donations = [], userLocation }) {
       </MapContainer>
       
       {/* Legend */}
-      <div className="absolute bottom-5 left-5 z-[1000] bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-md border border-slate-200 text-xs">
+      <div className="absolute bottom-5 left-5 z-1000 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-md border border-slate-200 text-xs">
         <div className="flex items-center gap-2 mb-1">
           <span className="w-3 h-3 rounded-full bg-emerald-600"></span>
           <span className="text-slate-600 font-medium">Available Food</span>

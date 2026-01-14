@@ -265,7 +265,7 @@ export default function Donations() {
             </div>
           ) : viewMode === "map" ? (
             // MAP VIEW RENDER
-            <div className="w-full h-[600px] rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-xl">
+            <div className="w-full h-150 rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-xl">
               <DonationMap donations={filteredDonations} userLocation={userLocation} />
             </div>
           ) : filteredDonations.length === 0 ? (

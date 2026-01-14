@@ -276,7 +276,7 @@ export default function Donate() {
                       Food Photo *
                     </Label>
 
-                    <div className="relative group h-[220px] w-[220px] rounded-[2rem] border-2 border-dashed border-primary/20 bg-slate-100/50 overflow-hidden flex items-center justify-center transition-all hover:border-primary/50 hover:bg-slate-100/80">
+                    <div className="relative group h-55 w-55 rounded-4xl border-2 border-dashed border-primary/20 bg-slate-100/50 overflow-hidden flex items-center justify-center transition-all hover:border-primary/50 hover:bg-slate-100/80">
                       <AnimatePresence mode="wait">
                         {preview ? (
                           <motion.div
@@ -370,7 +370,7 @@ export default function Donate() {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         required
-                        className="w-full min-h-[140px] bg-slate-100/40 border-none rounded-2xl px-6 py-4 resize-none focus:ring-2 focus:ring-primary/20 transition-all"
+                        className="w-full min-h-35 bg-slate-100/40 border-none rounded-2xl px-6 py-4 resize-none focus:ring-2 focus:ring-primary/20 transition-all"
                       />
                     </div>
 
@@ -456,7 +456,7 @@ export default function Donate() {
 
                 <div className="space-y-2">
                   <Label htmlFor="instructions" className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-2">Pickup Instructions *</Label>
-                  <textarea id="instructions" placeholder="e.g., Please ring the bell at the back gate." value={pickupInstructions} onChange={(e) => setPickupInstructions(e.target.value)} required className="w-full min-h-[80px] bg-slate-100/40 border-none rounded-2xl px-6 py-4 text-slate-900 font-medium resize-none" />
+                  <textarea id="instructions" placeholder="e.g., Please ring the bell at the back gate." value={pickupInstructions} onChange={(e) => setPickupInstructions(e.target.value)} required className="w-full min-h-20 bg-slate-100/40 border-none rounded-2xl px-6 py-4 text-slate-900 font-medium resize-none" />
                 </div>
 
                 <div className="space-y-2">
@@ -468,7 +468,7 @@ export default function Donate() {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3 p-6 bg-primary/5 rounded-[2rem] border border-primary/10 transition-all hover:bg-primary/10">
+              <div className="flex items-center space-x-3 p-6 bg-primary/5 rounded-4xl border border-primary/10 transition-all hover:bg-primary/10">
                 <input type="checkbox" id="terms" checked={acceptedTerms} onChange={(e) => setAcceptedTerms(e.target.checked)} className="h-6 w-6 rounded-lg border-primary/20 bg-white text-primary focus:ring-primary/20 cursor-pointer" />
                 <Label htmlFor="terms" className="text-sm font-medium text-slate-600 leading-snug cursor-pointer select-none">
                   I confirm that the food is fit for consumption and I agree to the <Link to="/t&cs" target="_blank" className="text-primary font-black underline underline-offset-4 hover:text-indigo-600">Terms & Conditions</Link>.

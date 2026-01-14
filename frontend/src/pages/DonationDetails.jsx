@@ -107,7 +107,7 @@ export default function DonationDetails() {
               alt={donation.title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
             <div className="absolute bottom-6 left-6 text-white">
               <h1 className="text-4xl font-black tracking-tight">{donation.title}</h1>
               <p className="text-xl font-medium">{donation.donator_id?.organizationName || "Private Donor"}</p>

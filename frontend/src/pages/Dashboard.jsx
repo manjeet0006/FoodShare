@@ -189,7 +189,7 @@ export default function Dashboard() {
 
       {/* SHADCN MODAL FOR CANCELLATION REASON */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[425px] rounded-[2rem] border-white/10 bg-slate-900/90 backdrop-blur-2xl text-white shadow-2xl">
+        <DialogContent className="sm:max-w-106.2 rounded-4xl border-white/10 bg-slate-900/90 backdrop-blur-2xl text-white shadow-2xl">
           <DialogHeader className="space-y-3">
             <div className="h-12 w-12 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-500 mb-2">
               <AlertCircle size={24} />
@@ -316,7 +316,7 @@ export default function Dashboard() {
               </TabsList>
             </div>
 
-            <div className="min-h-[450px] relative">
+            <div className="min-h-112.5 relative">
               <AnimatePresence mode="wait">
                 {loadingDonations ? <DashboardSkeleton /> : (
                   <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
@@ -355,7 +355,7 @@ export default function Dashboard() {
                                   className={cn(
                                     "h-9 w-9 rounded-xl shadow-2xl transition-all duration-300",
                                     "bg-rose-500/90 hover:bg-rose-600 backdrop-blur-md border border-rose-400/50",
-                                    "opacity-0 translate-y-[-10px] group-hover:opacity-100 group-hover:translate-y-0"
+                                    "opacity-0 translate-y-2.5 group-hover:opacity-100 group-hover:translate-y-0"
                                   )}
                                   onClick={(e) => {
                                     e.stopPropagation(); // Prevents the card from expanding when clicking delete

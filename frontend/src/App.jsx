@@ -43,7 +43,7 @@ const App = () => (
           <div className="relative flex flex-col min-h-screen">
             <Toaster position="top-center" richColors />
             
-            <main className="flex-grow">
+            <main className="grow">
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<Donations />} />

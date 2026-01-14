@@ -121,7 +121,7 @@ export default function Analytics() {
               </CardTitle>
               <CardDescription>Status distribution per food category.</CardDescription>
             </CardHeader>
-            <CardContent className="flex-1 min-h-[400px] p-8">
+            <CardContent className="flex-1 min-h-100 p-8">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -153,7 +153,7 @@ export default function Analytics() {
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Total Items</p>
               </div>
 
-              <div className="h-[280px] w-full">
+              <div className="h-70 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -196,7 +196,7 @@ export default function Analytics() {
 
 function CompactStat({ icon: Icon, label, value, color }) {
   return (
-    <Card className="rounded-[2rem] border-slate-100 shadow-lg shadow-slate-200/30 overflow-hidden group">
+    <Card className="rounded-4xl border-slate-100 shadow-lg shadow-slate-200/30 overflow-hidden group">
       <CardContent className="p-6 flex items-center gap-5">
         <div className={cn("p-4 rounded-2xl bg-slate-50 transition-transform group-hover:scale-110", color)}>
           <Icon size={24} />
@@ -215,9 +215,9 @@ function AnalyticsSkeleton() {
     <div className="container mx-auto px-4 pt-32 max-w-7xl space-y-12">
       <Skeleton className="h-16 w-1/3 bg-slate-100/80 rounded-3xl" />
       <div className="grid grid-cols-4 gap-6">
-        {[1,2,3,4].map(i => <Skeleton key={i} className="h-32 bg-slate-100/80 rounded-[2rem]" />)}
+        {[1,2,3,4].map(i => <Skeleton key={i} className="h-32 bg-slate-100/80 rounded-4xl" />)}
       </div>
-      <div className="grid grid-cols-12 gap-8 h-[500px]">
+      <div className="grid grid-cols-12 gap-8 h-125">
         <Skeleton className="col-span-8 bg-slate-100/80 rounded-[2.5rem]" />
         <Skeleton className="col-span-4 bg-slate-100/80 rounded-[2.5rem]" />
       </div>

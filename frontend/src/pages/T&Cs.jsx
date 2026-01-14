@@ -107,7 +107,7 @@ export default function TCs() {
             {sections.map((section, idx) => (
               <div 
                 key={idx} 
-                className={`p-6 rounded-[2rem] border transition-all duration-300 ${
+                className={`p-6 rounded-4xl border transition-all duration-300 ${
                   section.highlight 
                   ? "bg-rose-50 border-rose-100 shadow-rose-100" 
                   : "bg-white/50 border-slate-100 hover:shadow-xl shadow-slate-200/50"
