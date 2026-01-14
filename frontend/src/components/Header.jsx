@@ -54,7 +54,7 @@ export function Header() {
   // MERN Role-based navigation items
   const navItems = useMemo(() => {
     return [
-      { to: "/donations", label: "Browse Donations", icon: <Gift className="w-4 h-4" /> },
+      { to: "/", label: "Browse Donations", icon: <Gift className="w-4 h-4" /> },
       user && profile?.role === "donator"
         ? { to: "/donate", label: "Donate Food", icon: <Heart className="w-4 h-4" /> }
         : null,
@@ -79,7 +79,7 @@ export function Header() {
       <nav className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
 
         {/* ================= BRANDING ================= */}
-        <Link to="/" className="flex items-center gap-2 group z-50">
+        <Link to="/home" className="flex items-center gap-2 group z-50">
           <motion.div
             whileHover={{ scale: 1.1, rotate: -10 }}
             whileTap={{ scale: 0.95 }}

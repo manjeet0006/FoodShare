@@ -58,7 +58,7 @@ export default function TCs() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FDFDFF] relative overflow-x-hidden w-full">
+    <div className="min-h-screen pb-20 bg-[#FDFDFF] relative overflow-x-hidden w-full">
       {/* BACKGROUND BLOBS */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
         <motion.div custom={1} variants={blobVariants} animate="animate" className="absolute top-[-10%] right-[-5%] w-[60%] h-[60%] bg-primary/10 rounded-full blur-[140px]" />
@@ -74,7 +74,7 @@ export default function TCs() {
         className="container mx-auto px-4 py-20 max-w-4xl relative z-10"
       >
         {/* HERO SECTION */}
-        <motion.div variants={itemVariants} className="text-center mb-16 space-y-4">
+        <motion.div variants={itemVariants} className="text-center mb-16 space-y-4 mt-8">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-100 shadow-sm mb-4">
             <FileText className="h-4 w-4 text-primary" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Legal Agreement</span>

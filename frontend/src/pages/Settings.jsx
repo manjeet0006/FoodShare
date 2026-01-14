@@ -76,7 +76,7 @@ export default function Settings() {
   if (authLoading) return <div className="min-h-screen bg-white" />;
 
   return (
-    <div className="min-h-screen bg-[#FDFDFF] relative overflow-x-hidden flex flex-col w-full">
+    <div className="min-h-screen pb-20 bg-[#FDFDFF] relative overflow-x-hidden flex flex-col w-full">
       {/* BACKGROUND MESH BLOBS */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
         <div className="absolute top-[-5%] left-[-5%] w-[45%] h-[45%] bg-primary/5 rounded-full blur-[120px]" />
@@ -86,7 +86,7 @@ export default function Settings() {
       <Header />
       
       <main className="container mx-auto px-4 py-12 max-w-3xl relative z-10">
-        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mb-10">
+        <motion.div initial="hidden" animate="visible" variants={fadeUp} className="mb-10 mt-8">
           <div className="flex items-center gap-2 mb-3">
              <div className="px-3 py-1 bg-primary/10 rounded-full text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-1.5">
                <ShieldCheck className="h-3 w-3" />

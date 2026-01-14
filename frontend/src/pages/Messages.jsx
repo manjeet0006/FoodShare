@@ -35,7 +35,7 @@ export default function Messages() {
 
   return (
     // MERN FIX: Added 'w-full' and 'overflow-x-hidden' to resolve the right-side gap
-    <div className="min-h-screen bg-[#FDFDFF] relative w-full overflow-x-hidden flex flex-col">
+    <div className="min-h-screen pb-15 bg-[#FDFDFF] relative w-full overflow-x-hidden flex flex-col">
       
       {/* BACKGROUND MESH GRADIENT */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
@@ -51,7 +51,7 @@ export default function Messages() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-6"
         >
-          <h1 className="text-4xl font-black tracking-tighter text-slate-900 flex items-center gap-3">
+          <h1 className="text-4xl font-black tracking-tighter text-slate-900 flex items-center gap-3 mt-8">
             Messages
             <span className="text-xs font-black uppercase tracking-[0.2em] bg-primary/10 text-primary px-3 py-1 rounded-full">
               Live Chat

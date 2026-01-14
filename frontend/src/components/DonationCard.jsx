@@ -1,28 +1,37 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
   Clock, MapPin, MessageCircle, Package, User,
-  Phone, Building, Utensils
+  Building, CheckCircle2, ChevronDown
 } from "lucide-react";
-import { format, formatDistanceToNow } from "date-fns";
+import { format } from "date-fns";
 import { useAuth } from "@/contexts/AuthContext";
-import API from "@/services/api"; 
+import API from "@/services/api";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import heroImage from "@/assets/hero-food-sharing.jpg";
 
-// Added showClaimButton to the props destructuring below
+// --- FALLBACK IMAGES BY CATEGORY ---
+const CATEGORY_IMAGES = {
+  "Cooked Meals": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800",
+  "Fresh Produce": "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&q=80&w=800",
+  "Bakery Items": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800",
+  "default": "https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&q=80&w=800"
+};
+
 export function DonationCard({ donation, onClaim, showMessageButton = false, showClaimButton = false }) {
   const { user } = useAuth();
+  const [isExpanded, setIsExpanded] = useState(false);
   const [receiverInfo, setReceiverInfo] = useState(null);
 
   const expiresAt = new Date(donation.expires_at);
   const isExpired = expiresAt < new Date();
   const isUrgent = !isExpired && (expiresAt.getTime() - new Date().getTime() < 3600000 * 3);
-  const isAvailable = donation.status === "available" && !isExpired;
-
+  
   const isDonatorViewingClaimedDonation =
     user?.role === "donator" &&
     donation.donator_id?._id === user._id &&
@@ -46,18 +55,11 @@ export function DonationCard({ donation, onClaim, showMessageButton = false, sho
 
   const getOtherParty = () => {
     if (!user) return null;
-    if (user.role === "receiver" && donation.claimed_by === user._id) {
-      return {
-        id: donation.donator_id?._id,
-        name: donation.donator_id?.organizationName || donation.donator_id?.fullName || "Donator",
-      };
-    }
-    else if (user.role === "donator" && donation.donator_id?._id === user._id && donation.claimed_by) {
-      return {
-        id: donation.claimed_by,
-        name: receiverInfo?.organizationName || receiverInfo?.fullName || "Receiver",
-      };
-    }
+    const isReceiver = user.role === "receiver" && donation.claimed_by === user._id;
+    const isDonor = user.role === "donator" && donation.donator_id?._id === user._id && donation.claimed_by;
+
+    if (isReceiver) return { id: donation.donator_id?._id, name: donation.donator_id?.organizationName || "Donator" };
+    if (isDonor) return { id: donation.claimed_by, name: receiverInfo?.organizationName || "Receiver" };
     return null;
   };
 
@@ -65,114 +67,144 @@ export function DonationCard({ donation, onClaim, showMessageButton = false, sho
   const canMessage = showMessageButton && donation.status === "claimed" && otherParty;
 
   return (
-    <Card className="group h-full flex flex-col overflow-hidden border-muted/60 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white">
-      <div className="relative h-32 bg-linear-to-br from-primary/10 to-accent/10 flex items-center justify-center overflow-hidden">
-        <Utensils className="h-12 w-12 text-primary/20 absolute -right-2 -bottom-2 rotate-12" />
-        <Badge
-          variant={isExpired ? "destructive" : "outline"}
-          className={cn(
-            "absolute top-3 right-3 backdrop-blur-md font-semibold",
-            isAvailable && "bg-primary/90 text-primary-foreground border-none",
-            isUrgent && "animate-pulse bg-orange-500 text-white border-none"
-          )}
-        >
-          {isExpired ? "Expired" : isUrgent ? "Expiring Soon" : donation.status.toUpperCase()}
-        </Badge>
-        <div className="flex flex-col items-center gap-1 z-10">
-          <Package className="h-8 w-8 text-primary" />
-          <span className="text-xs font-bold uppercase tracking-widest text-primary/70">{donation.food_type}</span>
-        </div>
-      </div>
-
-      <CardHeader className="p-5 pb-2">
-        <div className="space-y-1">
-          <h3 className="font-bold text-xl leading-tight text-foreground group-hover:text-primary transition-colors line-clamp-1">
-            {donation.title}
-          </h3>
-          <div className="flex items-center gap-1.5 text-sm text-muted-foreground font-medium">
-            <Building className="h-3.5 w-3.5" />
-            <span className="truncate">
-              {donation.donator_id?.organizationName || donation.donator_id?.fullName || "Anonymous"}
-            </span>
-          </div>
-        </div>
-      </CardHeader>
-
-      <CardContent className="p-5 pt-2 flex-1 space-y-4">
-        {donation.description && (
-          <p className="text-sm text-muted-foreground line-clamp-2 italic">"{donation.description}"</p>
+    <motion.div layout transition={{ duration: 0.3, ease: "easeInOut" }}>
+      <Card 
+        onClick={() => setIsExpanded(!isExpanded)}
+        className={cn(
+          "group overflow-hidden border-border/40 transition-all cursor-pointer bg-background/60 backdrop-blur-sm p-0", // p-0 removes the top white space
+          isExpanded ? "shadow-2xl ring-1 ring-primary/20" : "hover:shadow-md"
         )}
+      >
+        {/* 1. COMPACT HEADER (Always Visible) */}
+        <div className="relative h-48 w-full overflow-hidden shrink-0">
+          <img
+            src={donation?.image || CATEGORY_IMAGES[donation.food_type] || CATEGORY_IMAGES["default"] || heroImage}
+            alt="food"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 block"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          
+          <Badge className={cn(
+            "absolute top-2 right-2 text-[9px] font-black uppercase tracking-tighter border-none",
+            isExpired ? "bg-destructive" : isUrgent ? "bg-orange-500 animate-pulse" : "bg-primary"
+          )}>
+            {isExpired ? "Expired" : isUrgent ? "Urgent" : donation.status}
+          </Badge>
 
-        <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-muted/30 border border-muted/20">
-          <div className="space-y-1">
-            <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-tighter">Quantity</p>
-            <div className="flex items-center gap-1 text-sm font-semibold">
-              <Package className="h-3.5 w-3.5 text-primary" />
-              {donation.quantity}
+          <div className="absolute bottom-2 left-3 right-3 flex justify-between items-center text-white">
+            <div className="flex items-center gap-1.5 bg-black/20 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">
+              <MapPin className="h-3 w-3 text-primary" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">{donation.city}</span>
+              {donation.distance != null && (
+                <>
+                  <Separator orientation="vertical" className="h-3 bg-white/20 mx-1" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">
+                    {(donation.distance / 1000).toFixed(1)} km
+                  </span>
+                </>
+              )}
             </div>
-          </div>
-          <div className="space-y-1">
-            <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-tighter">Location</p>
-            <div className="flex items-center gap-1 text-sm font-semibold truncate">
-              <MapPin className="h-3.5 w-3.5 text-primary" />
-              {donation.city}
-            </div>
+            <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
+              <ChevronDown className="h-4 w-4 opacity-70" />
+            </motion.div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-          <Clock className={cn("h-4 w-4", isUrgent && "text-orange-500")} />
-          <span>{format(expiresAt, "MMM d, h:mm a")}</span>
+        {/* 2. TEXT CONTENT (Wrapped in padding to compensate for p-0 on Card) */}
+        <div className="p-3">
+          <CardHeader className="p-0 pb-2 space-y-0">
+            <h3 className="font-bold text-base leading-tight uppercase tracking-tight line-clamp-1">
+              {donation.title || donation.food_type}
+            </h3>
+          </CardHeader>
+
+          {/* 3. EXPANDABLE CONTENT */}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CardContent className="p-0 space-y-3 pt-2">
+                  <Separator className="opacity-30" />
+                  
+                  <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-bold uppercase">
+                    <Building className="h-3 w-3" />
+                    {donation.donator_id?.organizationName || "Private Donor"}
+                  </div>
+
+                  {donation.description && (
+                    <p className="text-xs text-muted-foreground leading-relaxed italic border-l-2 border-primary/20 pl-2">
+                      {donation.description}
+                    </p>
+                  )}
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="bg-secondary/50 p-2 rounded-lg border border-border/40">
+                      <p className="text-[8px] uppercase font-black text-muted-foreground tracking-tighter mb-0.5">Quantity</p>
+                      <div className="flex items-center gap-1 text-xs font-bold">
+                        <Package className="h-3 w-3 text-primary" />
+                        {donation.quantity}
+                      </div>
+                    </div>
+                    <div className="bg-secondary/50 p-2 rounded-lg border border-border/40">
+                      <p className="text-[8px] uppercase font-black text-muted-foreground tracking-tighter mb-0.5">Expires At</p>
+                      <div className="flex items-center gap-1 text-xs font-bold">
+                        <Clock className="h-3 w-3 text-primary" />
+                        {format(expiresAt, "h:mm a")}
+                      </div>
+                    </div>
+                  </div>
+
+                  {isDonatorViewingClaimedDonation && receiverInfo && (
+                    <div className="rounded-lg bg-primary/5 p-2 border border-primary/10">
+                      <p className="text-[8px] font-black uppercase text-primary mb-1">Secured By</p>
+                      <div className="font-bold text-[11px] flex items-center gap-2 italic">
+                        <User className="h-3 w-3" />
+                        {receiverInfo.organizationName || receiverInfo.fullName}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex gap-2 pt-1" onClick={(e) => e.stopPropagation()}>
+                    {canMessage && (
+                      <Button variant="outline" size="sm" className="flex-1 h-8 rounded-lg text-[10px] font-bold uppercase tracking-tighter" asChild>
+                        <Link to={`/messages?donationId=${donation._id}&otherPartyId=${otherParty.id}&otherPartyName=${encodeURIComponent(otherParty.name)}&donationTitle=${encodeURIComponent(donation.title)}`}>
+                          <MessageCircle className="h-3 w-3 mr-1" />
+                          Chat
+                        </Link>
+                      </Button>
+                    )}
+
+                    {showClaimButton && donation.status === "available" && (
+                      <Button
+                        size="sm"
+                        onClick={() => onClaim(donation._id)}
+                        className="flex-1 h-8 rounded-lg bg-primary text-white font-black text-[10px] uppercase tracking-tighter"
+                      >
+                        Claim Now
+                      </Button>
+                    )}
+
+                    {donation.status === "claimed" && user?.role === "donator" && (
+                      <Button
+                        size="sm"
+                        onClick={onClaim}
+                        className="flex-1 h-8 rounded-lg bg-emerald-600 text-white font-black text-[10px] uppercase tracking-tighter"
+                      >
+                        <CheckCircle2 className="h-3 w-3 mr-1" />
+                        Delivered
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-
-        {isDonatorViewingClaimedDonation && receiverInfo && (
-          <div className="mt-2 rounded-xl border border-primary/20 bg-primary/5 p-4">
-            <span className="text-[10px] font-bold uppercase text-primary/70 block mb-1">Claimed By</span>
-            <div className="font-bold text-sm flex items-center gap-2">
-              <User className="h-3.5 w-3.5 text-primary" />
-              {receiverInfo.organizationName || receiverInfo.fullName}
-            </div>
-          </div>
-        )}
-      </CardContent>
-
-      <Separator className="opacity-50" />
-
-      
-
-      <CardFooter className="p-1 bg-muted/10">
-        <div className="flex w-full gap-1">
-          {/* 1. CHAT BUTTON */}
-          {canMessage && (
-            <Button variant="outline" className="flex-1 bg-background" asChild>
-              <Link to={`/messages?donationId=${donation._id}&otherPartyId=${otherParty.id}&otherPartyName=${encodeURIComponent(otherParty.name)}&donationTitle=${encodeURIComponent(donation.title)}`}>
-                <MessageCircle className="h-4 w-4 mr-2 text-primary" />
-                Chat
-              </Link>
-            </Button>
-          )}
-
-          {/* 2. CLAIM BUTTON (For Receivers in the feed) */}
-          {showClaimButton && donation.status === "available" && (
-            <Button
-              onClick={() => onClaim(donation._id)}
-              className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold"
-            >
-              Claim Order
-            </Button>
-          )}
-
-          {/* 3. CONFIRM PICKUP BUTTON (For Donators in dashboard) */}
-          {donation.status === "claimed" && user?.role === "donator" && (
-            <Button
-              onClick={onClaim}
-              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
-            >
-              Confirm Pickup
-            </Button>
-          )}
-        </div>
-      </CardFooter>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }

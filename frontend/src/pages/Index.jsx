@@ -88,7 +88,7 @@ export default function Index() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link to="/donations">
+              <Link to="/">
                 <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full bg-background/50 backdrop-blur-xl border-foreground/10">
                   Find Food
                 </Button>
@@ -220,7 +220,7 @@ export default function Index() {
       </section>
 
       {/* ================= FOOTER ================= */}
-      <footer className="py-12 border-t border-border/40">
+      {/* <footer className="py-12 border-t border-border/40">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
              <div className="p-2 bg-primary rounded-xl"><Heart className="h-5 w-5 text-white fill-white" /></div>
@@ -233,7 +233,7 @@ export default function Index() {
           </div>
           <p className="text-sm text-muted-foreground/40 italic">© 2026 ShareFood Inc.</p>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }

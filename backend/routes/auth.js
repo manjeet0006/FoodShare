@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import User from '../models/user.js';
 import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -11,7 +11,7 @@ router.post('/signup', async (req, res) => {
 
   try {
     const { email, password, full_name, organization_name, phone, address, role } = req.body;
-    console.log(email);
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ email, password: hashedPassword, fullName: full_name, organizationName: organization_name, phone, address, role });
     
