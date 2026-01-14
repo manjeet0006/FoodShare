@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5001/api', // Your Express Server URL
+  baseURL: 'https://foodshare-k581.onrender.com/api', // Your Express Server URL
 });
 
 // Middleware to add Token to headers
